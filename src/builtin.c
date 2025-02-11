@@ -1,5 +1,5 @@
 #include "builtin.h"
-#include "util.h"  // Para usar find_executable
+#include "util.h"  
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -7,7 +7,7 @@
 
 int builtin_exit(char **tokens, int token_count) {
     if (token_count >= 2 && strcmp(tokens[1], "0") == 0)
-        return 0;  // Sinal para sair do shell
+        return 0; 
     return 1;
 }
 

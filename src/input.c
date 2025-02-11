@@ -4,7 +4,6 @@
 #include <string.h>
 #include <unistd.h>
 
-// Função interna para calcular o LCP entre as completions
 static void compute_lcp(char **completions, int count, char *lcp) {
     if (count <= 0) {
         lcp[0] = '\0';
@@ -83,7 +82,6 @@ void handle_tab(char *input, size_t *input_len, TrieNode *trie_root) {
 }
 
 void redraw_line(const char *prompt, const char *input) {
-    // Limpa a linha usando sequência ANSI e reimprime prompt + input
     printf("\r\033[2K%s%s", prompt, input);
     fflush(stdout);
 }

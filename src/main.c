@@ -21,7 +21,6 @@
 #endif
 
 int main() {
-    // Configura o terminal: salva as configurações originais e entra no modo não-canônico
     tcgetattr(STDIN_FILENO, &orig_termios);
     atexit(restore_terminal);
     struct termios new_termios = orig_termios;
@@ -30,7 +29,6 @@ int main() {
     new_termios.c_cc[VTIME] = 0;
     tcsetattr(STDIN_FILENO, TCSANOW, &new_termios);
 
-    // Cria a Trie e insere os builtins
     TrieNode *trie_root = createNode();
     insert(trie_root, "echo");
     insert(trie_root, "exit");
@@ -38,7 +36,6 @@ int main() {
     insert(trie_root, "pwd");
     insert(trie_root, "cd");
 
-    // Insere os executáveis do PATH na Trie
     const char *path = getenv("PATH");
     if (path) {
         char *path_copy = strdup(path);
@@ -66,7 +63,6 @@ int main() {
         }
     }
 
-    // Loop principal do shell
     while (1) {
         char prompt[] = "$ ";
         write(STDOUT_FILENO, prompt, strlen(prompt));
@@ -101,7 +97,6 @@ int main() {
             }
         }
 
-        // Trata redirecionamento de saída/erro
         char *outfile = NULL;
         char *errfile = NULL;
         int append_flag = 0;
@@ -144,7 +139,6 @@ int main() {
             close(fd_err);
         }
 
-        // Verifica se o comando digitado é built-in; se não, tenta executar como comando externo
         int builtin_found = 0;
         for (int i = 0; i < num_builtins; i++) {
             if (strcmp(tokens[0], builtins[i].name) == 0) {
